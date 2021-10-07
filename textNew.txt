@@ -1,0 +1,34 @@
+
+const sendFilterMessage = ({users , text , room , sender, receiver, username, rooms}) => { 
+    var generalRoom = rooms.find((value) => value.roomId === room);
+    if (!generalRoom) {
+        rooms.push({roomId : room , receivers : []})
+    }
+    
+    var foundUser = users.find((value, index) => value.username === username);
+    var foundRoom = foundUser.rooms.find((value , index) => value.roomId === room);
+    var receivers = foundRoom.receivers;
+    if (!receivers.includes(receiver)) {
+        receivers.push(receiver)
+    }
+    var message = [
+        {
+            sender,
+            text 
+        }
+    ]
+
+    receivers.forEach((receiver , index) => {
+        var user = users.find((u, i) => u.username === receiver);
+        var roomF = user.rooms.find((r , i) => r.roomId === room); 
+        roomF.messages.push(message)
+    });
+
+    //
+    console.log(foundRoom);
+    console.log(foundRoom.messages);
+    //
+
+    return foundRoom.messages;
+
+}
